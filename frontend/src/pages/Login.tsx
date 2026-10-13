@@ -174,20 +174,6 @@ export default function Login() {
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
-
-              <div className="pt-2 border-t border-navy-700 text-center">
-                <span className="text-xs text-slate-400">Don't have an account? </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    resetForm();
-                    setView('register');
-                  }}
-                  className="text-xs font-medium text-violet-400 hover:text-violet-300 transition"
-                >
-                  Register here
-                </button>
-              </div>
             </form>
           )}
 
