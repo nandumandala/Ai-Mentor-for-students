@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Brain, Compass, Code, LayoutDashboard } from 'lucide-react';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
