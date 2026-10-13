@@ -15,18 +15,46 @@ export default function Login() {
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!email || !password) {
-      setError('Please fill in all fields');
+    const trimmedEmail = email.trim().toLowerCase();
+
+    if (!trimmedEmail || !password) {
+      setError('Please fill in both email and password');
       return;
     }
-    localStorage.setItem('userEmail', email);
+
+    // Retrieve registered users from localStorage
+    const storedUsersJson = localStorage.getItem('registeredUsers');
+    const registeredUsers: Record<string, { name: string; password: string }> = storedUsersJson
+      ? JSON.parse(storedUsersJson)
+      : {};
+
+    const user = registeredUsers[trimmedEmail];
+
+    // Check if account exists
+    if (!user) {
+      setError('No account found with this email. Please register first.');
+      return;
+    }
+
+    // Check password match
+    if (user.password !== password) {
+      setError('Incorrect password. Please try again or reset your password.');
+      return;
+    }
+
+    // Successful login
+    localStorage.setItem('userEmail', trimmedEmail);
+    localStorage.setItem('userName', user.name);
     navigate('/dashboard');
   };
 
   const handleRegister = (e: FormEvent) => {
     e.preventDefault();
     setError('');
-    if (!name || !email || !password || !confirmPassword) {
+    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedName = name.trim();
+
+    if (!trimmedName || !trimmedEmail || !password || !confirmPassword) {
       setError('Please fill in all fields');
       return;
     }
@@ -38,8 +66,28 @@ export default function Login() {
       setError('Password must be at least 6 characters');
       return;
     }
-    localStorage.setItem('userName', name);
-    localStorage.setItem('userEmail', email);
+
+    // Retrieve and update registered users
+    const storedUsersJson = localStorage.getItem('registeredUsers');
+    const registeredUsers: Record<string, { name: string; password: string }> = storedUsersJson
+      ? JSON.parse(storedUsersJson)
+      : {};
+
+    if (registeredUsers[trimmedEmail]) {
+      setError('An account with this email already exists. Please sign in instead.');
+      return;
+    }
+
+    // Save user credentials
+    registeredUsers[trimmedEmail] = {
+      name: trimmedName,
+      password: password,
+    };
+    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+
+    // Log the user in
+    localStorage.setItem('userName', trimmedName);
+    localStorage.setItem('userEmail', trimmedEmail);
     navigate('/dashboard');
   };
 
