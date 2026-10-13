@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-700: #334155;
+  --color-navy-800: #1E293B;
+  --color-navy-900: #0F172A;
+  --color-violet-500: #8B5CF6;
+  --color-violet-600: #7C3AED;
+}
+
+@layer base {
+  body {
+    @apply bg-navy-900 text-slate-100 antialiased;
+  }
+}
