@@ -14,6 +14,17 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.get('/', (_req: Request, res: Response) => {
+  res.json({
+    message: 'Welcome to AI Mentor Backend API',
+    status: 'healthy',
+    endpoints: {
+      health: '/health',
+      api: '/api'
+    }
+  });
+});
+
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
